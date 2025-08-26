@@ -46,7 +46,11 @@ def frequency(
         # Get number of occurrences for each word
         # Ensures 'SPACE' for both sides to match words, 
         #   not substrings
-        matches = re.findall(f" {word} ".upper(), f" {text} ".upper())
+        if case_sensitive == False:
+            matches = re.findall(f" {word} ".upper(), f" {text} ".upper())
+        else:
+            matches = re.findall(f" {word} ", f" {text} ")
+
         # store values
         result[word] = len(matches)
 
