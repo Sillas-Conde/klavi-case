@@ -3,7 +3,8 @@ import re
 
 def frequency(
     text: str, 
-    n: int
+    n: int,
+    case_sensitive: bool = False
 ) -> dict[str, int]:
 
     '''
@@ -15,6 +16,8 @@ def frequency(
             Input string, must have at least one word.
         n (int):
             Input integer for number of frequencies.
+        case_sensitive (bool):
+            Boolean for case sensitivity. Defaults False
     
     Returns:
         dict[str, int]:
@@ -30,6 +33,9 @@ def frequency(
 
     # Remove non alphabetical chars 
     text = re.sub(r'[^a-z A-Z]','', text)
+    
+    if case_sensitive == False:
+        text = text.upper()
     # Get words ('SPACE' separator) as a set
     #   only unique words
     words = set(text.split(' '))
@@ -40,7 +46,7 @@ def frequency(
         # Get number of occurrences for each word
         # Ensures 'SPACE' for both sides to match words, 
         #   not substrings
-        matches = re.findall(f" {word} ", f" {text} ")
+        matches = re.findall(f" {word} ".upper(), f" {text} ".upper())
         # store values
         result[word] = len(matches)
 
@@ -57,7 +63,11 @@ def frequency(
 
 if __name__ == "__main__":
 
-    result = frequency("This is a Klavi test from Klavi. A Klavi test. Best Regards, Klavi.", 5)
+    result = frequency(
+        "This is a Klavi test from Klavi. A Klavi test. Best Regards, Klavi.", 
+        5,
+        case_sensitive=True
+    )
 
     for key in result.keys():
 
